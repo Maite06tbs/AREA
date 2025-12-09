@@ -23,7 +23,7 @@ export const apiRequest = async (
   options: RequestInit = {}
 ): Promise<any> => {
   const url = buildApiUrl(endpoint);
-  
+
   // Default headers
   const defaultHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -42,6 +42,15 @@ export const apiRequest = async (
       ...options.headers,
     },
   });
+
+  // Check if response has content before parsing JSON
+  // DELETE requests typically return 204 No Content
+  if (response.status === 204 || response.headers.get('content-length') === '0') {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return null; // No content to parse
+  }
 
   const data = await response.json();
 
@@ -111,7 +120,7 @@ export const authAPI = {
    */
   forgotPassword: async (email: string) => {
     const requestBody: any = { email };
-    
+
     return apiRequest('auth/password-reset/', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -124,11 +133,11 @@ export const authAPI = {
   resetPassword: async (uidb64: string, token: string, password: string) => {
     return apiRequest('auth/password-reset-confirm/', {
       method: 'POST',
-      body: JSON.stringify({ 
-        uidb64, 
-        token, 
+      body: JSON.stringify({
+        uidb64,
+        token,
         password,
-        password_confirm: password 
+        password_confirm: password
       }),
     });
   },
@@ -186,6 +195,15 @@ export const areasAPI = {
   },
 
   /**
+   * Get a single AREA by ID
+   */
+  getArea: async (areaId: string) => {
+    return apiRequest(`areas/${areaId}/`, {
+      method: 'GET',
+    });
+  },
+
+  /**
    * Update an existing AREA
    */
   updateArea: async (areaId: string, areaData: any) => {
@@ -199,6 +217,7 @@ export const areasAPI = {
    * Delete an AREA
    */
   deleteArea: async (areaId: string) => {
+    console.log('Deleting area with ID:', areaId);
     return apiRequest(`areas/${areaId}/`, {
       method: 'DELETE',
     });
@@ -231,9 +250,19 @@ export const oauthAPI = {
    * Complete OAuth flow with authorization code or access token
    */
   completeOAuth: async (serviceName: string, tokenOrCode: string, state?: string) => {
+    // Determine the correct field name based on service and token format
+    const payload: any = { state };
+    
+    // Discord and GitHub use authorization codes, Google uses access tokens
+    if (serviceName === 'discord' || serviceName === 'github') {
+      payload.code = tokenOrCode;
+    } else {
+      payload.access_token = tokenOrCode;
+    }
+    
     return apiRequest(`oauth/${serviceName}/complete/`, {
       method: 'POST',
-      body: JSON.stringify({ access_token: tokenOrCode, code: tokenOrCode, state }),
+      body: JSON.stringify(payload),
     });
   },
 

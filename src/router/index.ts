@@ -56,6 +56,11 @@ const router = createRouter({
       path: '/oauth/callback/github',
       name: 'githubCallback',
       component: () => import('../pages/GitHubCallbackPage.vue')
+    },
+    {
+      path: '/oauth/callback/discord',
+      name: 'discordCallback',
+      component: () => import('../pages/DiscordCallback.vue')
     }
   ],
 })

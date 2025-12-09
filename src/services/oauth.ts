@@ -87,7 +87,11 @@ export async function startOAuthFlow(serviceName: string): Promise<{ success: bo
       case 'github':
         return await handleGitHubOAuth(serviceConfig);
       
+      case 'discord':
+        return await handleDiscordOAuth(serviceConfig);
+      
       default:
+        console.log(`[MOCK] OAuth not implemented for ${serviceName}`);
         return { success: false, error: `OAuth not implemented for ${serviceName}` };
     }
   } catch (error: any) {
@@ -152,6 +156,55 @@ async function handleGitHubOAuth(serviceConfig: Service): Promise<{ success: boo
     const popup = window.open(
       authUrl.toString(),
       'github_oauth',
+      'width=600,height=700,scrollbars=yes,resizable=yes'
+    );
+
+    // Wait for popup completion
+    return new Promise((resolve) => {
+      const checkClosed = setInterval(() => {
+        if (popup?.closed) {
+          clearInterval(checkClosed);
+          // Check if OAuth was successful
+          const success = sessionStorage.getItem('oauth_success') === 'true';
+          sessionStorage.removeItem('oauth_success');
+          resolve({ success });
+        }
+      }, 1000);
+    });
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Handle Discord OAuth using backend configuration
+ */
+async function handleDiscordOAuth(serviceConfig: Service): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Support both auth_url and authorization_url for backend compatibility
+    const authorizationUrl = (serviceConfig.oauth_config as any)?.authorization_url || serviceConfig.oauth_config?.auth_url;
+    
+    if (!authorizationUrl) {
+      return { success: false, error: 'Discord OAuth configuration missing' };
+    }
+
+    // Build authorization URL
+    const authUrl = new URL(authorizationUrl);
+    const state = Math.random().toString(36).substring(2, 15);
+    
+    authUrl.searchParams.set('client_id', import.meta.env.VITE_DISCORD_CLIENT_ID || '');
+    authUrl.searchParams.set('redirect_uri', `${window.location.origin}/oauth/callback/discord`);
+    authUrl.searchParams.set('response_type', 'code');
+    authUrl.searchParams.set('scope', serviceConfig.oauth_config.scopes?.join(' ') || 'identify');
+    authUrl.searchParams.set('state', state);
+
+    // Store state for validation
+    sessionStorage.setItem('discord_oauth_state', state);
+
+    // Open popup for OAuth
+    const popup = window.open(
+      authUrl.toString(),
+      'discord_oauth',
       'width=600,height=700,scrollbars=yes,resizable=yes'
     );
 

@@ -625,31 +625,69 @@ const toggleAreaStatus = async (area) => {
 };
 
 // Edit area
-const editArea = (area) => {
-  editingAreaId.value = area.id;
-  areaConfig.name = area.name;
-  areaConfig.description = area.description || '';
-  
-  // Find services and populate
-  const actionService = services.value.find(s => s.name === area.action?.service_name);
-  if (actionService) {
-    areaConfig.action.service = actionService;
-    areaConfig.action.trigger = actionService.actions?.find(a => a.name === area.action?.action_name);
-    areaConfig.action.config = area.action?.config || {};
+const editArea = async (area) => {
+  try {
+    // Load full area details from backend
+    const fullArea = await areasAPI.getArea(area.id);
+    console.log('Loaded area for editing:', fullArea);
+    
+    editingAreaId.value = fullArea.id;
+    areaConfig.name = fullArea.name;
+    areaConfig.description = fullArea.description || '';
+    
+    // Extract action service ID and action ID
+    const actionServiceId = fullArea.action?.service;
+    const actionId = fullArea.action?.id;
+    
+    console.log('Looking for action service:', actionServiceId, 'action:', actionId);
+    
+    // Find and populate action service
+    const actionService = services.value.find(s => s.id === actionServiceId);
+    if (actionService) {
+      areaConfig.action.service = actionService;
+      const actionTrigger = actionService.actions?.find(a => a.id === actionId);
+      if (actionTrigger) {
+        areaConfig.action.trigger = actionTrigger;
+        areaConfig.action.config = fullArea.action_config || {};
+        console.log('Action loaded:', actionTrigger.name);
+      } else {
+        console.error('Action trigger not found:', actionId, 'in service:', actionService.name);
+      }
+    } else {
+      console.error('Action service not found:', actionServiceId);
+    }
+
+    // Extract reaction service ID and reaction ID
+    const reactionServiceId = fullArea.reaction?.service;
+    const reactionId = fullArea.reaction?.id;
+    
+    console.log('Looking for reaction service:', reactionServiceId, 'reaction:', reactionId);
+
+    // Find and populate reaction service
+    const reactionService = services.value.find(s => s.id === reactionServiceId);
+    if (reactionService) {
+      const reactionTrigger = reactionService.reactions?.find(r => r.id === reactionId);
+      if (reactionTrigger) {
+        areaConfig.reactions = [{
+          id: Date.now(),
+          service: reactionService,
+          reaction: reactionTrigger,
+          config: fullArea.reaction_config || {}
+        }];
+        console.log('Reaction loaded:', reactionTrigger.name);
+      } else {
+        console.error('Reaction not found:', reactionId, 'in service:', reactionService.name);
+      }
+    } else {
+      console.error('Reaction service not found:', reactionServiceId);
+    }
+
+    console.log('Final areaConfig:', areaConfig);
+    isCreating.value = true;
+  } catch (error) {
+    console.error('Failed to load area details:', error);
+    alert('Failed to load area details. Please try again.');
   }
-
-  // Populate reactions
-  areaConfig.reactions = (area.reactions || []).map(r => {
-    const reactionService = services.value.find(s => s.name === r.service_name);
-    return {
-      id: Date.now() + Math.random(),
-      service: reactionService,
-      reaction: reactionService?.reactions?.find(react => react.name === r.reaction_name),
-      config: r.config || {}
-    };
-  });
-
-  isCreating.value = true;
 };
 
 // Delete area
@@ -657,11 +695,22 @@ const confirmDeleteArea = async (area) => {
   if (!confirm(`Are you sure you want to delete "${area.name}"?`)) return;
 
   try {
+    // Clear the list first to show loading state
+    isLoadingAreas.value = true;
+    
+    // Delete the area
     await areasAPI.deleteArea(area.id);
+    
+    // Reload the list
     await loadUserAreas();
+    
+    // Show success message
+    console.log('Area deleted successfully');
   } catch (error) {
     console.error('Failed to delete area:', error);
-    alert('Failed to delete area');
+    alert('Failed to delete area: ' + (error.message || 'Unknown error'));
+  } finally {
+    isLoadingAreas.value = false;
   }
 };
 
