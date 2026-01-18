@@ -1,0 +1,323 @@
+/* ============================================
+   AREA Platform - Premium Backgrounds
+   ============================================
+   
+   Types de backgrounds:
+   - .bg-hero: Page d'accueil (impact, puissance, automatisation)
+   - .bg-features: Page fonctionnalités (calme, intelligent)
+   - .bg-workflows: Page workflows/automatisation (logique, flux)
+   - .bg-dashboard: Dashboard (léger, premium, non-intrusif)
+   - .bg-onboarding: Login/Signup (rassurant, moderne)
+   - .bg-settings: Paramètres (sérieux, stabilité)
+   - .bg-neutral: Pages secondaires (neutre, lisible)
+*/
+
+/* ============================================
+   HERO BACKGROUND - Page d'accueil
+   Impact immédiat, puissance, automatisation invisible
+   ============================================ */
+.bg-hero {
+  @apply relative min-h-screen overflow-hidden;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 50%, #f3e8ff 100%);
+}
+
+.bg-hero::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background: 
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(192, 132, 252, 0.05) 0%, transparent 40%);
+}
+
+.bg-hero::after {
+  content: '';
+  @apply absolute inset-0 pointer-events-none opacity-30;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L30 60 M0 30 L60 30' stroke='%23a855f7' stroke-width='0.3' fill='none' opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+/* Animated flowing lines effect */
+.bg-hero-animated {
+  @apply bg-hero;
+}
+
+.bg-hero-animated::before {
+  animation: hero-pulse 8s ease-in-out infinite;
+}
+
+@keyframes hero-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Decorative elements for hero */
+.hero-glow {
+  @apply absolute rounded-full blur-3xl pointer-events-none;
+}
+
+.hero-glow-1 {
+  @apply -top-40 -right-40 w-96 h-96;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+  animation: float 20s ease-in-out infinite;
+}
+
+.hero-glow-2 {
+  @apply -bottom-40 -left-40 w-80 h-80;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.15) 0%, transparent 70%);
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.hero-glow-3 {
+  @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px];
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(30px, -30px); }
+  66% { transform: translate(-20px, 20px); }
+}
+
+/* ============================================
+   FEATURES BACKGROUND - Page fonctionnalités
+   Calme, intelligent, réseaux abstraits
+   ============================================ */
+.bg-features {
+  @apply relative min-h-screen;
+  background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);
+}
+
+.bg-features::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23a855f7' opacity='0.15'/%3E%3Cpath d='M50 20 L50 80 M20 50 L80 50' stroke='%23a855f7' stroke-width='0.2' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 100px 100px;
+}
+
+.bg-features::after {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background: 
+    radial-gradient(ellipse 50% 30% at 10% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 90% 80%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
+}
+
+/* Network lines overlay */
+.bg-features-network::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 100 50, 190 10 M10 100 Q 100 140, 190 100 M10 190 Q 100 150, 190 190' stroke='%23a855f7' stroke-width='0.3' fill='none' opacity='0.08'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23a855f7' opacity='0.1'/%3E%3Ccircle cx='190' cy='10' r='2' fill='%23a855f7' opacity='0.1'/%3E%3Ccircle cx='100' cy='100' r='2' fill='%23a855f7' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ============================================
+   WORKFLOWS BACKGROUND - Automatisation/Scénarios
+   Logique, enchaînements, flux directionnels
+   ============================================ */
+.bg-workflows {
+  @apply relative min-h-screen;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 50%, #f3e8ff 100%);
+}
+
+.bg-workflows::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background-image: url("data:image/svg+xml,%3Csvg width='400' height='200' viewBox='0 0 400 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 C 100 100, 100 50, 200 50 C 300 50, 300 150, 400 150' stroke='%23a855f7' stroke-width='1' fill='none' opacity='0.06'/%3E%3Cpath d='M0 150 C 100 150, 150 100, 200 100 C 250 100, 300 50, 400 50' stroke='%23c084fc' stroke-width='0.5' fill='none' opacity='0.05'/%3E%3Ccircle cx='200' cy='50' r='4' fill='%23a855f7' opacity='0.1'/%3E%3Ccircle cx='200' cy='100' r='4' fill='%23a855f7' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 400px 200px;
+  animation: flow 30s linear infinite;
+}
+
+@keyframes flow {
+  0% { background-position: 0 0; }
+  100% { background-position: 400px 0; }
+}
+
+.bg-workflows::after {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background: 
+    linear-gradient(90deg, rgba(255,255,255,0.8) 0%, transparent 10%, transparent 90%, rgba(255,255,255,0.8) 100%);
+}
+
+/* ============================================
+   DASHBOARD BACKGROUND - Interface principale
+   Ultra léger, premium, non-intrusif
+   ============================================ */
+.bg-dashboard {
+  @apply relative min-h-screen;
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 50%, #faf5ff 100%);
+}
+
+.bg-dashboard::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none opacity-30;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='0.5' fill='%23a855f7' opacity='0.3'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
+/* Almost invisible texture for premium feel */
+.bg-dashboard-subtle {
+  @apply bg-dashboard;
+  background: linear-gradient(180deg, 
+    rgba(250, 250, 250, 1) 0%, 
+    rgba(255, 255, 255, 1) 30%,
+    rgba(250, 245, 255, 0.3) 100%
+  );
+}
+
+/* Dark mode dashboard */
+.dark .bg-dashboard {
+  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 50%, #1a0a2e 100%);
+}
+
+.dark .bg-dashboard::before {
+  @apply opacity-10;
+}
+
+/* ============================================
+   ONBOARDING BACKGROUND - Login/Signup
+   Rassurant, moderne, confiance
+   ============================================ */
+.bg-onboarding {
+  @apply relative min-h-screen overflow-hidden;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 50%, #f3e8ff 100%);
+}
+
+.bg-onboarding::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background: 
+    radial-gradient(ellipse 100% 100% at 0% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 80% at 100% 100%, rgba(192, 132, 252, 0.08) 0%, transparent 50%);
+}
+
+/* Soft rounded shapes */
+.bg-onboarding-shapes {
+  @apply absolute inset-0 overflow-hidden pointer-events-none;
+}
+
+.onboarding-shape {
+  @apply absolute rounded-full blur-3xl;
+}
+
+.onboarding-shape-1 {
+  @apply -top-20 -right-20 w-80 h-80;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+}
+
+.onboarding-shape-2 {
+  @apply -bottom-20 -left-20 w-96 h-96;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.1) 0%, transparent 70%);
+}
+
+.onboarding-shape-3 {
+  @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px];
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
+}
+
+/* ============================================
+   SETTINGS BACKGROUND - Paramètres/Admin
+   Sérieux, stable, contrôle
+   ============================================ */
+.bg-settings {
+  @apply relative min-h-screen;
+  background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+}
+
+.bg-settings::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='60' height='60' fill='none' stroke='%23a855f7' stroke-width='0.2' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+.bg-settings::after {
+  content: '';
+  @apply absolute top-0 left-0 right-0 h-1;
+  background: linear-gradient(90deg, #a855f7, #c084fc, #a855f7);
+}
+
+/* Dark mode settings */
+.dark .bg-settings {
+  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+
+/* ============================================
+   NEUTRAL BACKGROUND - Pages secondaires
+   (À propos, aide, docs)
+   ============================================ */
+.bg-neutral {
+  @apply relative min-h-screen;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+}
+
+.bg-neutral::before {
+  content: '';
+  @apply absolute inset-0 pointer-events-none;
+  background: 
+    radial-gradient(ellipse 100% 50% at 50% 0%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+}
+
+/* Dark mode neutral */
+.dark .bg-neutral {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Animated gradient border */
+.border-gradient-animated {
+  @apply relative;
+}
+
+.border-gradient-animated::before {
+  content: '';
+  @apply absolute -inset-0.5 rounded-2xl -z-10;
+  background: linear-gradient(45deg, #a855f7, #c084fc, #a855f7, #c084fc);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Fade in animation */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle glow */
+.glow-subtle {
+  box-shadow: 0 0 60px rgba(168, 85, 247, 0.1);
+}
+
+/* Premium shadow */
+.shadow-premium {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 20px 25px -5px rgba(139, 92, 246, 0.05);
+}
