@@ -218,39 +218,39 @@
               v-if="area"
               class="card-area-interactive p-6"
             >
-            <div class="flex items-start justify-between">
-              <div class="flex-1">
-                <div class="flex items-center gap-3 mb-2">
-                  <h3 class="text-xl font-bold text-surface-900 dark:text-white">{{ area.name }}</h3>
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-3 mb-2 flex-wrap">
+                  <h3 class="text-xl font-bold text-surface-900 dark:text-white truncate">{{ area.name }}</h3>
                   <span 
-                    class="badge-area"
+                    class="badge-area whitespace-nowrap"
                     :class="area.is_active ? 'badge-area-success' : 'bg-surface-100 text-surface-600 dark:bg-surface-700 dark:text-surface-400'"
                   >
                     {{ area.is_active ? 'Active' : 'Inactive' }}
                   </span>
                 </div>
-                <p v-if="area.description" class="text-surface-600 dark:text-surface-400 mb-4">{{ area.description }}</p>
+                <p v-if="area.description" class="text-surface-600 dark:text-surface-400 mb-4 line-clamp-2">{{ area.description }}</p>
                 
-                <div class="flex items-center gap-4 text-sm">
+                <div class="flex flex-wrap items-center gap-3 text-sm">
                   <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-secondary-100 dark:bg-secondary-900/50 rounded-lg flex items-center justify-center">
+                    <div class="w-8 h-8 bg-secondary-100 dark:bg-secondary-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
                       <span class="text-xs font-bold text-secondary-700 dark:text-secondary-400">IF</span>
                     </div>
-                    <span class="text-surface-600 dark:text-surface-400">{{ area.service_action || area.action_name || 'Action' }}</span>
+                    <span class="text-surface-600 dark:text-surface-400 font-medium truncate max-w-[120px]">{{ area.service_action || area.action_name || 'Action' }}</span>
                   </div>
-                  <ArrowRight :size="16" class="text-surface-400" />
+                  <ArrowRight :size="16" class="text-surface-400 flex-shrink-0" />
                   <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900/50 rounded-lg flex items-center justify-center">
+                    <div class="w-8 h-8 bg-primary-100 dark:bg-primary-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
                       <span class="text-xs font-bold text-primary-700 dark:text-primary-400">THEN</span>
                     </div>
-                    <span class="text-surface-600 dark:text-surface-400">{{ area.service_reaction || area.reaction_name || 'Reaction' }}</span>
+                    <span class="text-surface-600 dark:text-surface-400 font-medium truncate max-w-[120px]">{{ area.service_reaction || area.reaction_name || 'Reaction' }}</span>
                   </div>
                 </div>
               </div>
 
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 self-end sm:self-start">
                 <button
-                  @click="openHistory(area)"
+                  @click.stop="openHistory(area)"
                   title="View History"
                   class="p-2 text-secondary-600 dark:text-secondary-400 hover:bg-secondary-50 dark:hover:bg-secondary-900/30 rounded-lg transition-colors"
                 >
