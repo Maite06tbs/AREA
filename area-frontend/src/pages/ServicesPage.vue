@@ -159,7 +159,7 @@ onMounted(() => {
       </div>
 
       <!-- Stats -->
-      <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto mb-12">
         <div class="card-area-elevated p-6 text-center">
           <div class="text-3xl font-bold text-primary-600 mb-1">{{ services.length }}</div>
           <div class="text-sm text-surface-500">Services</div>

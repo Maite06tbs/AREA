@@ -60,7 +60,7 @@
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white text-sm font-bold">
                   {{ userInitials }}
                 </div>
-                <ChevronDown :size="16" class="text-surface-400" />
+                <ChevronDown :size="16" class="text-surface-400 hidden sm:block" />
               </button>
               
               <!-- Dropdown Menu -->
@@ -92,7 +92,49 @@
                 </div>
               </div>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button 
+              @click="isMobileMenuOpen = !isMobileMenuOpen"
+              class="md:hidden p-2 text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-lg transition-colors"
+            >
+              <Menu v-if="!isMobileMenuOpen" :size="24" />
+              <X v-else :size="24" />
+            </button>
           </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Overlay -->
+      <div 
+        v-if="isMobileMenuOpen" 
+        class="md:hidden absolute top-20 left-0 w-full bg-white/95 dark:bg-surface-900/95 backdrop-blur-xl border-b border-surface-200 dark:border-surface-700 shadow-lg animate-fade-in z-40"
+      >
+        <div class="container-area py-4 space-y-2">
+          <router-link 
+            to="/services" 
+            class="flex items-center gap-3 px-4 py-3 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-xl transition-colors"
+            @click="isMobileMenuOpen = false"
+          >
+            <Layers :size="20" />
+            <span class="font-medium">Services</span>
+          </router-link>
+          <router-link 
+            to="/oauth" 
+            class="flex items-center gap-3 px-4 py-3 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-xl transition-colors"
+            @click="isMobileMenuOpen = false"
+          >
+            <Shield :size="20" />
+            <span class="font-medium">Connections</span>
+          </router-link>
+          <router-link 
+            to="/help" 
+            class="flex items-center gap-3 px-4 py-3 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-xl transition-colors"
+            @click="isMobileMenuOpen = false"
+          >
+            <HelpCircle :size="20" />
+            <span class="font-medium">Help</span>
+          </router-link>
         </div>
       </div>
     </nav>
@@ -521,7 +563,7 @@ import { ref, reactive, onMounted, computed, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { 
   Workflow, Plus, Trash2, ArrowRight, CheckCircle, Play, Pause, Edit, History, Search, Moon, Sun,
-  Layers, Shield, HelpCircle, User, Settings, LogOut, ChevronDown
+  Layers, Shield, HelpCircle, User, Settings, LogOut, ChevronDown, Menu, X
 } from 'lucide-vue-next';
 import { areasAPI } from '@/services/api';
 import { useWebSocket } from '@/services/websocket';
@@ -547,6 +589,7 @@ const editingAreaId = ref(null);
 
 // User Menu
 const showUserMenu = ref(false);
+const isMobileMenuOpen = ref(false);
 const userMenuRef = ref(null);
 const userEmail = ref(localStorage.getItem('user_email') || 'User');
 const userInitials = computed(() => {
